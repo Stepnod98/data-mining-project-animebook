@@ -1,0 +1,16 @@
+-testare dataset su weka:
+	-preprocessing (guarda come gestire gli attributi e se è possibile fare feature extraction);
+	-combinazioni possibili tra attribute selection e classification algorithms in base a delle considerazioni sul dataset fatte in seguito ad un'attenta analisi
+
+-fare diagramma di classe;
+
+-iniziare a buttare giù il codice dell'applicazione (inserimento anime, creazione lista, gestione account)
+
+
+-1.Applicazione
+	-scegliere se inserire punteggi per categoria oppure
+-2.ML
+	a)trattamento dataset:
+		feature: uid, aid, rate--> name, genre, type, episodes, rating (avg), members
+	feature extraction: da genre dobbiamo ricavare n features, per analizzare singolarment genere per genere---> script in [linguaggio di programmazione da scegliere]
+-3.Codice
