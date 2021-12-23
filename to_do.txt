@@ -14,3 +14,24 @@
 		feature: uid, aid, rate--> name, genre, type, episodes, rating (avg), members
 	feature extraction: da genre dobbiamo ricavare n features, per analizzare singolarment genere per genere---> script in [linguaggio di programmazione da scegliere]
 -3.Codice
+
+
+---Analisi preliminare e preprocessing----
+(Mettere nell'analisi preliminare del dataset)
+
+Vedere quanti user hanno rating x ogni anime: (4 in media)
+
+Preprocessing: attributi da eliminare per ogni collection:
+Anime: sinopsi, aired, imgurl (elimina x data analisys, da tenere eventualmente per interfaccia grafica), link, ranked.
+
+User:Genere, compleanno, link
+
+Reviews:text, scores, link
+
+(da mettere forse in preprocessing)
+Aggiungere in user un Embedded Document:
+animelist{[
+	nome anime:
+	voto dell'utente che prendo da reviews.score
+]
+}
