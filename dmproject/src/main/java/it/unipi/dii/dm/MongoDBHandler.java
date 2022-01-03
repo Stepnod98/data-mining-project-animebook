@@ -1,5 +1,16 @@
 package it.unipi.dii.dm.exercises;
 
+import com.mongodb.ConnectionString;
+import com.mongodb.client.*;
+import com.mongodb.client.result.UpdateResult;
+import org.bson.Document;
+import org.bson.conversions.Bson;
+
+import java.util.*;
+
+import static com.mongodb.client.model.Filters.*;
+import static com.mongodb.client.model.Updates.*;
+
 public class MongoDBHandler {
 
     public static void connectionStarter(String connection, String database){
