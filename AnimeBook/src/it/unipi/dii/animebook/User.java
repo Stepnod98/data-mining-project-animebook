@@ -5,20 +5,83 @@
  */
 package it.unipi.dii.animebook;
 
-import java.util.*;
+//import org.bson.Document;
 
-/**
- *
- * @author Stefano
- */
-public class User {
+import java.util.ArrayList;
+
+public class User{
+
     private String username;
-    private List<String> animeList = new ArrayList<String>();
-    public User(String username, ArrayList<String> list){
-        this.username = username;
-        animeList = list;
+    private ArrayList<AnimeListElem> animeList;
+
+    /*public User(Document doc){
+        this.username = doc.getString("profile");
+        if((ArrayList<Document>)doc.get("animelist") != null)
+            this.animeList = getAnimeListfromDoc((ArrayList<Document>)doc.get("animelist"));
+        else
+            this.animeList = new ArrayList<>();
     }
-    public String getUsername(){
-        return username;
+*/
+    public String getUsername(){return this.username;}
+/*
+    public ArrayList<AnimeListElem> getAnimeList(){return this.animeList;}
+
+    public ArrayList<AnimeListElem> getAnimeListfromDoc(ArrayList<Document> animeListDoc){
+        ArrayList<AnimeListElem> animelist = new ArrayList<>();
+        for(Document d : animeListDoc) {
+            AnimeListElem elem = new AnimeListElem(d);
+            animelist.add(elem);
+        }
+        return animelist;
     }
+
+    public void printAnimeList(){
+        for(AnimeListElem a : this.animeList)
+            System.out.println("Anime: "+a.getTitle()+" Score: "+a.score);
+    }
+
+    public ArrayList<Document> removeAnimeListElement(String animeTitle){
+        for(AnimeListElem e :animeList){
+            if(animeTitle.equals(e.getTitle())){
+                animeList.remove(e);
+                System.out.println("removeAnimeListElement - Delete operation - OK");
+                return createAnimeList(this.animeList);
+            }
+        }
+        System.out.println("removeAnimeListElement - Delete operation - FAIL ");
+        return null;
+    }
+
+    public ArrayList<Document> addNewAnimeListElement(AnimeListElem e){
+        animeList.add(e);
+        return createAnimeList(this.animeList);
+    }
+
+    public ArrayList<Document> addNewAnimeListElementFromList(String animeTitle){
+        AnimeListElem e = new AnimeListElem(animeTitle, 0);
+        animeList.add(e);
+        return createAnimeList(this.animeList);
+    }
+
+    public ArrayList<Document> setAnimeScore(String animeTitle, int score){
+        for(AnimeListElem e :animeList){
+            if(animeTitle.equals(e.getTitle())){
+                animeList.get(animeList.indexOf(e)).setScore(score);
+                System.out.println("setAnimeScore - SET operation - OK");
+                return createAnimeList(this.animeList);
+            }
+        }
+        System.out.println("setAnimeScore - SET operation - FAIL ");
+        return null;
+    }
+
+    public ArrayList<Document> createAnimeList(ArrayList<AnimeListElem> list){
+        ArrayList<Document> listofAnime = new ArrayList<>();
+        for(AnimeListElem a : list){
+            Document rv = new Document("anime", a.getTitle())
+                    .append("score", a.getScore());
+            listofAnime.add(rv);
+        }
+        return listofAnime;
+    }*/
 }

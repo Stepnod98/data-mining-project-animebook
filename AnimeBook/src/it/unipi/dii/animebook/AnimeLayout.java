@@ -5,6 +5,7 @@
  */
 package it.unipi.dii.animebook;
 
+import java.util.ArrayList;
 import java.util.List;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.property.SimpleListProperty;
@@ -18,6 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.*;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
 /**
@@ -32,8 +34,8 @@ public class AnimeLayout {
     protected Button findAnime;
     private Label viewRecommended;
     protected Button viewRecommendedAnimes;
-    private TableView<String> table = new TableView<String>();
-    private ObservableList<String> observableList;
+    private TableView table;
+    private ObservableList<AnimeRow> observableList;
     private VBox vbox;
     private Label result;
     protected Button back;
@@ -43,7 +45,7 @@ public class AnimeLayout {
         view.setLayoutY(40);
         viewAnimes = new Button("VIEW");
     	viewAnimes.setLayoutY(40);
-    	viewAnimes.setLayoutX(220);
+    	viewAnimes.setLayoutX(250);
     	viewAnimes.setMaxWidth(300);
         find = new Label("Find an Anime:");
         find.setLayoutX(50);
@@ -62,8 +64,10 @@ public class AnimeLayout {
         viewRecommended.setLayoutY(120);
         viewRecommendedAnimes = new Button("VIEW");
     	viewRecommendedAnimes.setLayoutY(120);
-    	viewRecommendedAnimes.setLayoutX(220);
+    	viewRecommendedAnimes.setLayoutX(250);
     	viewRecommendedAnimes.setMaxWidth(300);
+        table = new TableView();
+        vbox = new VBox();
         back = new Button("BACK");
     	back.setLayoutX(640);
         back.setLayoutY(560);
@@ -71,7 +75,8 @@ public class AnimeLayout {
     }
     
     public Node[] getNodes() {
-    	Node[] returnNode = { view, viewAnimes, find, animeToFind, findAnime, viewRecommended, viewRecommendedAnimes, back};
+    	Node[] returnNode = { view, viewAnimes, find, animeToFind, findAnime, viewRecommended, 
+                            viewRecommendedAnimes, vbox, back};
     	return returnNode;
     }
     
@@ -79,34 +84,99 @@ public class AnimeLayout {
         return animeToFind.getText();
     }
     
-    public void showCardResults(List<String> list){
-        TableColumn<String, String> column = new TableColumn("Card Title");
-        column.setCellValueFactory(cellData -> 
-            new ReadOnlyStringWrapper(cellData.getValue()));
-        table.getColumns().add(column);
-        observableList = FXCollections.observableArrayList(list);	
+    public TextField getAnimeToBrowseTf(){
+        return animeToFind;
+    }
+    
+    public Button getViewAnimes(){
+        return viewAnimes;
+    }
+    
+    public Button getFindAnime(){
+        return findAnime;
+    }
+    
+    public Button getBack(){
+        return back;
+    }
+    
+    public TableView getTable(){
+        return table;
+    }
+    
+    public void showAnimeDetails(List<String> list){
+        TableColumn columnAnime = new TableColumn("Title");
+        TableColumn columnAdd = new TableColumn();
+        table.getColumns().addAll(columnAnime, columnAdd);
+        List<AnimeRow> anilist = new ArrayList<>();
+        for(int i = 0; i < list.size(); i++){
+            anilist.add(new AnimeRow(list.get(i)));
+        }
+        observableList = FXCollections.observableArrayList(anilist);
+        columnAnime.setCellValueFactory(
+                new PropertyValueFactory<>("title")
+        );
+        columnAdd.setCellValueFactory(
+                new PropertyValueFactory<>("add")
+        );
+        
         table.setItems(observableList);
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        vbox = new VBox();
+        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         vbox.setLayoutY(240);
         vbox.setLayoutX(60);
         vbox.setMaxHeight(148);
         vbox.getChildren().addAll(table);
     }
     
-    public void showDeckResults(List<String> list){
-        TableColumn<String, String> column = new TableColumn("Deck Title");
-        column.setCellValueFactory(cellData -> 
-            new ReadOnlyStringWrapper(cellData.getValue()));
-        table.getColumns().add(column);
-        observableList = FXCollections.observableArrayList(list);	
+    public void showAnimeResults(List<String> list){
+        TableColumn columnAnime = new TableColumn("TITLE");
+        TableColumn columnScore = new TableColumn("YOUR SCORE");
+        TableColumn columnAdd = new TableColumn();
+        table.getColumns().addAll(columnAnime, columnScore, columnAdd);
+        List<AnimeRow> anilist = new ArrayList<>();
+        for(int i = 0; i < list.size(); i++){
+            anilist.add(new AnimeRow(list.get(i)));
+        }
+        observableList = FXCollections.observableArrayList(anilist);
+        columnAnime.setCellValueFactory(
+                new PropertyValueFactory<>("title")
+        );
+        
+        columnScore.setCellValueFactory(
+                new PropertyValueFactory<>("score")
+        );
+        
+        columnAdd.setCellValueFactory(
+                new PropertyValueFactory<>("add")
+        );
+        
         table.setItems(observableList);
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        vbox = new VBox();
-        vbox.setLayoutY(240);
-        vbox.setLayoutX(440);
-        vbox.setMaxHeight(180);
+        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        vbox.setLayoutY(200);
+        vbox.setLayoutX(60);
+        vbox.setMaxHeight(350);
+        vbox.setMinWidth(500);
         vbox.getChildren().addAll(table);
+    }
+    
+    
+    public void showListResults(BorderPane bp, int x, int y){
+        if(bp == null){
+            return;
+        }
+        vbox.setLayoutX(x);
+        vbox.setLayoutY(y);
+        vbox.setMaxHeight(120);
+        vbox.setMaxWidth(150);
+        vbox.setMinWidth(100);
+        vbox.getChildren().addAll(bp);
+    }
+    
+    public void clearLayout(){
+        vbox.getChildren().clear();
+        table.getColumns().clear();
     }
     
     public Node getTableNodes() {

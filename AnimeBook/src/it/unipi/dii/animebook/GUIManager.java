@@ -5,6 +5,8 @@
  */
 package it.unipi.dii.animebook;
 
+import java.util.ArrayList;
+import java.util.List;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -14,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 /**
@@ -28,6 +31,10 @@ public class GUIManager extends Application {
     private static AnimeListManager animeListManager;
     private static AnimeManager animeManager;
     private static LoginManager loginManager;
+    private static GenreSelection genreSelection;
+    private static GenreSelectionManager genreSelectionManager;
+    private static SignUpLayout signUpLayout;
+    private static SignUpManager signUpManager;
     private static User current_user;
     public static Scene scene;
     public static Group root;
@@ -38,6 +45,8 @@ public class GUIManager extends Application {
     public void start(Stage stage){
         root = setUI();
         scene = new Scene(root, 800, 600);
+        scene.getStylesheets().add("file:style/loginStyle.css");
+        scene.setFill(Color.DARKCYAN);
         stage.setTitle("AnimeBook");
         stage.setScene(scene);
         loginManager = new LoginManager(loginLayout);
@@ -51,6 +60,9 @@ public class GUIManager extends Application {
         for (Node n: tmp) {
             root.getChildren().add(n);
         }
+        scene.getStylesheets().clear();
+        scene.getStylesheets().add("file:style/animeStyle.css");
+        scene.setFill(Color.LIGHTSTEELBLUE);
     }
     
     public static void openAnimeManager(){
@@ -89,18 +101,20 @@ public class GUIManager extends Application {
         }
         loginManager = new LoginManager(loginLayout);
         loginManager.setEvents();
+        scene.getStylesheets().clear();
+        scene.getStylesheets().add("file:style/loginStyle.css");
+        scene.setFill(Color.DARKCYAN);
     }
     
     public static void openSignUpManager(){
         root.getChildren().clear();
-        loginLayout = new LoginLayout(true);
+        signUpLayout = new SignUpLayout();
         Node[] tmp;
-        tmp = loginLayout.getSignUpNodes();
+        tmp = signUpLayout.getSignUpNodes();
         for (Node n: tmp) {
             root.getChildren().add(n);
         }
-        loginManager = new LoginManager(loginLayout);
-        loginManager.setSignUpEvents();
+        signUpManager = new SignUpManager(signUpLayout);
     }
     
     public static void openAnimeList(AnimeListLayout dm){
@@ -115,6 +129,18 @@ public class GUIManager extends Application {
        
         animeListManager = new AnimeListManager(animeListLayout);
         animeListManager.setEvents();
+    }
+    
+    public static void openGenreSelection(){
+        root.getChildren().clear();
+        genreSelection = new GenreSelection();
+        List<Node> tmp = new ArrayList<>();
+        tmp = genreSelection.getNodes();
+        for (Node n: tmp) {
+            root.getChildren().add(n);
+        }
+        genreSelectionManager = new GenreSelectionManager(genreSelection, current_user);
+       
     }
     
     public static Group setUI() {

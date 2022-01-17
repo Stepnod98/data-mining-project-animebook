@@ -5,6 +5,7 @@
  */
 package it.unipi.dii.animebook;
 
+import java.util.ArrayList;
 import java.util.List;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.property.SimpleListProperty;
@@ -18,6 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.*;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 
@@ -35,8 +37,8 @@ public class AnimeListLayout {
     private Label view;
     private static TextField rating;
     protected Button viewAnimeList;
-    private TableView<Anime> table = new TableView<Anime>();
-    private ObservableList<Anime> observableList = FXCollections.observableArrayList();
+    private TableView table;
+    private ObservableList<AnimeListRow> observableList;
     private VBox vbox;
     private Label result;
     protected Button back;
@@ -77,28 +79,111 @@ public class AnimeListLayout {
     	viewAnimeList.setLayoutY(120);
     	viewAnimeList.setLayoutX(180);
     	viewAnimeList.setMaxWidth(300);*/
-        observableList.addAll(new Anime("app1",1),
-                                new Anime("app2", 2), 
-                                new Anime("app3", 3), 
-                                new Anime("app4", 4),
-                                new Anime("app5", 5));
+        table = new TableView();
+        TableColumn columnAnime = new TableColumn("Title");
+        TableColumn columnScore = new TableColumn("Score");
+        TableColumn columnRemove = new TableColumn();
+        TableColumn columnUpdateScore = new TableColumn("Update Score");
+        TableColumn columnUpdate = new TableColumn();
+        table.getColumns().addAll(columnAnime, columnScore, columnRemove, columnUpdateScore, columnUpdate);
+        List<AnimeListRow> anilist = new ArrayList<>();
+        List<AnimeListElem> l = new ArrayList<>();
+        l.add(new AnimeListElem("app1",1));
+        l.add(new AnimeListElem("app2",2));
+        l.add(new AnimeListElem("app3",3));
+        l.add(new AnimeListElem("app4",4));
+        l.add(new AnimeListElem("app5",5));
+        for(int i = 0; i < l.size(); i++){
+            anilist.add(new AnimeListRow(l.get(i).getTitle(), l.get(i).getScore()));
+        }
+        observableList = FXCollections.observableArrayList(anilist);
+        columnAnime.setCellValueFactory(
+                new PropertyValueFactory<>("title")
+        );
+        columnScore.setCellValueFactory(
+                new PropertyValueFactory<>("score")
+        );
+        columnRemove.setCellValueFactory(
+                new PropertyValueFactory<>("remove")
+        );
+        columnUpdateScore.setCellValueFactory(
+                new PropertyValueFactory<>("updateScore")
+        );
+        columnUpdate.setCellValueFactory(
+                new PropertyValueFactory<>("update")
+        );
+        
+        table.setItems(observableList);
+        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        vbox = new VBox();
+        vbox.setLayoutY(40);
+        vbox.setLayoutX(40);
+        vbox.setFillWidth(true);
+        vbox.setMaxHeight(450);
+        vbox.setMinWidth(600);
+        vbox.getChildren().addAll(table);
+         /*
+        findDeckRecTable = new TableView();
+
+        TableColumn column = new TableColumn("Deck title");
+        TableColumn columnLike = new TableColumn("Action");
+
+        findDeckRecTable.getColumns().addAll(column, columnLike);
+
+        List<Row> recResult = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++){
+            recResult.add(new Row(list.get(i)));
+        }
+
+        observableList = FXCollections.observableArrayList(recResult);
+
+        column.setCellValueFactory(
+                new PropertyValueFactory<Row,String>("info")
+        );
+
+        columnLike.setCellValueFactory(
+                new PropertyValueFactory<Row,String>("button")
+        );
+
+
+        findDeckRecTable.setItems(observableList);
+        findDeckRecTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+
+
+        visualize = new VBox();
+        visualize.setLayoutY(300);
+        visualize.setLayoutX(20);
+        visualize.setFillWidth(true);
+        visualize.setMaxHeight(182);
+        visualize.getChildren().addAll(findDeckRecTable);
+
+        */
+        /*observableList.addAll(new AnimeListElem("app1",1),
+                                new AnimeListElem("app2", 2), 
+                                new AnimeListElem("app3", 3), 
+                                new AnimeListElem("app4", 4),
+                                new AnimeListElem("app5", 5));
         table.setItems(observableList);
 
-        TableColumn<Anime, String> colTitle = new TableColumn<>("Title");
+        TableColumn<AnimeListElem, String> colTitle = new TableColumn<>("Title");
         colTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         
-        TableColumn<Anime, Integer> colScore = new TableColumn<>("Score");
+        TableColumn<AnimeListElem, Integer> colScore = new TableColumn<>("Score");
         colScore.setCellValueFactory(new PropertyValueFactory<>("score"));
 
         table.getColumns().addAll(colTitle, colScore);
 
-        addButtonToTable();
+        //addButtonToTable();
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         vbox = new VBox();
         vbox.setLayoutY(40);
         vbox.setLayoutX(40);
         vbox.setMaxHeight(280);
         vbox.getChildren().addAll(table);
+        */
+       
+        
         back = new Button("BACK");
     	back.setLayoutX(640);
         back.setLayoutY(560);
@@ -115,9 +200,23 @@ public class AnimeListLayout {
     	return returnNode;
     }
     
-    public static String getDeckToBrowse(){
+    public TableView getTable(){
+        return table;
+    }
+    
+    public Button getBack(){
+        return back;
+    }
+    
+    public static String getAnimeToAdd(){
         return animeToAdd.getText();
     }
+    
+    public void clearLayout(){
+        vbox.getChildren().clear();
+        table.getColumns().clear();
+    }
+    
     
     
     
@@ -210,19 +309,19 @@ public class AnimeListLayout {
                                 new Data(5, "app5"));
     }
 */
-    private void addButtonToTable() {
-        TableColumn<Anime, Void> colRemBtn = new TableColumn("");
+    /*private void addButtonToTable() {
+        TableColumn<AnimeListElem, Void> colRemBtn = new TableColumn("");
 
-        Callback<TableColumn<Anime, Void>, TableCell<Anime, Void>> cellFactory = new Callback<TableColumn<Anime, Void>, TableCell<Anime, Void>>() {
+        Callback<TableColumn<AnimeListElem, Void>, TableCell<AnimeListElem, Void>> cellFactory = new Callback<TableColumn<AnimeListElem, Void>, TableCell<AnimeListElem, Void>>() {
             @Override
-            public TableCell<Anime, Void> call(final TableColumn<Anime, Void> param) {
-                final TableCell<Anime, Void> cell = new TableCell<Anime, Void>() {
+            public TableCell<AnimeListElem, Void> call(final TableColumn<AnimeListElem, Void> param) {
+                final TableCell<AnimeListElem, Void> cell = new TableCell<AnimeListElem, Void>() {
 
                     private final Button removeBtn = new Button("REMOVE");
 
                     {
                         removeBtn.setOnAction((ActionEvent event) -> {
-                            AnimeListManager.removeAnime();
+                            //AnimeListManager.removeAnime();
                         });
                     }
 
@@ -243,11 +342,11 @@ public class AnimeListLayout {
         colRemBtn.setCellFactory(cellFactory);
         table.getColumns().add(colRemBtn);
         
-        TableColumn<Anime, Void> colScoreTxt = new TableColumn("Update Score");
-        Callback<TableColumn<Anime, Void>, TableCell<Anime, Void>> cellFactory3 = new Callback<TableColumn<Anime, Void>, TableCell<Anime, Void>>() {
+        TableColumn<AnimeListElem, Void> colScoreTxt = new TableColumn("Update Score");
+        Callback<TableColumn<AnimeListElem, Void>, TableCell<AnimeListElem, Void>> cellFactory3 = new Callback<TableColumn<AnimeListElem, Void>, TableCell<AnimeListElem, Void>>() {
             @Override
-            public TableCell<Anime, Void> call(final TableColumn<Anime, Void> param) {
-                final TableCell<Anime, Void> cell = new TableCell<Anime, Void>() {
+            public TableCell<AnimeListElem, Void> call(final TableColumn<AnimeListElem, Void> param) {
+                final TableCell<AnimeListElem, Void> cell = new TableCell<AnimeListElem, Void>() {
 
                     private final TextField scoreTxt = new TextField("");
 
@@ -273,17 +372,17 @@ public class AnimeListLayout {
         colScoreTxt.setCellFactory(cellFactory3);
         table.getColumns().add(colScoreTxt);
         
-        TableColumn<Anime, Void> colScoreBtn = new TableColumn("");
-        Callback<TableColumn<Anime, Void>, TableCell<Anime, Void>> cellFactory2 = new Callback<TableColumn<Anime, Void>, TableCell<Anime, Void>>() {
+        TableColumn<AnimeListElem, Void> colScoreBtn = new TableColumn("");
+        Callback<TableColumn<AnimeListElem, Void>, TableCell<AnimeListElem, Void>> cellFactory2 = new Callback<TableColumn<AnimeListElem, Void>, TableCell<AnimeListElem, Void>>() {
             @Override
-            public TableCell<Anime, Void> call(final TableColumn<Anime, Void> param) {
-                final TableCell<Anime, Void> cell = new TableCell<Anime, Void>() {
+            public TableCell<AnimeListElem, Void> call(final TableColumn<AnimeListElem, Void> param) {
+                final TableCell<AnimeListElem, Void> cell = new TableCell<AnimeListElem, Void>() {
 
                     private final Button scoreBtn = new Button("UPDATE");
 
                     {
                         scoreBtn.setOnAction((ActionEvent event) -> {
-                           AnimeListManager.updateScore();
+                           //AnimeListManager.updateScore();
                         });
                     }
 
@@ -305,7 +404,48 @@ public class AnimeListLayout {
         
 
     }
+*/
+    
+    /*
+    
+    public void showDeckRecResults(List<String> list){
+        findDeckRecTable = new TableView();
 
+        TableColumn column = new TableColumn("Deck title");
+        TableColumn columnLike = new TableColumn("Action");
+
+        findDeckRecTable.getColumns().addAll(column, columnLike);
+
+        List<Row> recResult = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++){
+            recResult.add(new Row(list.get(i)));
+        }
+
+        observableList = FXCollections.observableArrayList(recResult);
+
+        column.setCellValueFactory(
+                new PropertyValueFactory<Row,String>("info")
+        );
+
+        columnLike.setCellValueFactory(
+                new PropertyValueFactory<Row,String>("button")
+        );
+
+
+        findDeckRecTable.setItems(observableList);
+        findDeckRecTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+
+
+        visualize = new VBox();
+        visualize.setLayoutY(300);
+        visualize.setLayoutX(20);
+        visualize.setFillWidth(true);
+        visualize.setMaxHeight(182);
+        visualize.getChildren().addAll(findDeckRecTable);
+
+    }
+    */
    
 }
    
