@@ -21,8 +21,9 @@ public class AppLayout {
     private Button bLogout;
     public AppLayout(){
         title = new Label("Welcome in AnimeBook!");
-        title.setLayoutX(280);
+        title.setLayoutX(250);
         title.setLayoutY(20);
+        title.setId("title");
         bAnimeList = new Button("YOUR ANIME LIST");
         bAnimeList.setLayoutX(280);
         bAnimeList.setLayoutY(80);

@@ -5,34 +5,58 @@
  */
 package it.unipi.dii.animebook;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Stefano
  */
-
-import javafx.beans.property.*;
-
-
 public class Anime {
-    //private final SimpleStringProperty title;
-    //private final SimpleIntegerProperty score;
     private String title;
-    private int score;
-    
-    public Anime(String title, int score){
-        //this.title = new SimpleStringProperty(title);
-        //this.score = new SimpleIntegerProperty(score);
+    private List<String> genres = new ArrayList<>();
+    private int episodes;
+    private int members;
+    private double score;
+    public Anime(String title, List genres, int episodes, int members, double score){
         this.title = title;
+        this.genres = genres;
+        this.episodes = episodes;
+        this.members = members;
         this.score = score;
     }
     
-    public String getTitle(){
-        return title;
-        //.get();
+    /*
+    public Anime(Document doc){
+        this.title = doc.getString("anime");
+        List<Document> documentList = d.get("genre", List.class);
+        for(int i = 0; i < documentList.size(); i++){
+            this.genres.add(new Card(documentList.get(i)));
+        }
+        this.episodes = doc.getInteger("episodes");
+        this.members = doc.getInteger("members");
+        this.score = doc.getInteger("score");
     }
     
-    public int getScore(){
+    */
+    
+    public String getTitle(){
+        return title;
+    }
+    
+    public List getGenres(){
+        return genres;
+    }
+    
+    public int getEpisodes(){
+        return episodes;
+    }
+    
+    public int getMembers(){
+        return members;
+    }
+    
+    public double getScore(){
         return score;
-        //.get();
     }
 }
