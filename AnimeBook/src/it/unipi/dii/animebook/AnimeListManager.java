@@ -18,7 +18,7 @@ public class AnimeListManager {
     private static AnimeListLayout animeListLayout;
     public AnimeListManager(AnimeListLayout animeListLayout){
         this.animeListLayout = animeListLayout;
-        
+        setEvents();
    }
     
     public static void updateScore(String title, int newScore){
@@ -33,7 +33,7 @@ public class AnimeListManager {
         GUIManager.openAnimeList(animeListLayout);
     }
    
-    public static void setEvents(){
+    public void setEvents(){
         for(int i = 0; i < animeListLayout.getTable().getItems().size(); i++){
             AnimeListRow row = (AnimeListRow)animeListLayout.getTable().getItems().get(i);
             row.getRemove().setText("REMOVE");

@@ -25,6 +25,7 @@ import javafx.stage.Stage;
  */
 public class GUIManager extends Application {
     private static AppLayout appLayout;
+    private static AppLayoutManager appManager;
     private static AnimeListLayout animeListLayout;
     private static AnimeLayout animeLayout;
     private static LoginLayout loginLayout;
@@ -63,6 +64,7 @@ public class GUIManager extends Application {
         scene.getStylesheets().clear();
         scene.getStylesheets().add("file:style/animeStyle.css");
         scene.setFill(Color.LIGHTSTEELBLUE);
+        appManager = new AppLayoutManager(appLayout, current_user);
     }
     
     public static void openAnimeManager(){
@@ -87,7 +89,6 @@ public class GUIManager extends Application {
             root.getChildren().add(n);
         }
         animeListManager = new AnimeListManager(animeListLayout);
-        animeListManager.setEvents();
     }
     
     
@@ -128,7 +129,6 @@ public class GUIManager extends Application {
         root.getChildren().add(dm.getTableNodes());
        
         animeListManager = new AnimeListManager(animeListLayout);
-        animeListManager.setEvents();
     }
     
     public static void openGenreSelection(){
@@ -141,6 +141,20 @@ public class GUIManager extends Application {
         }
         genreSelectionManager = new GenreSelectionManager(genreSelection, current_user);
        
+    }
+    
+    public static void addNode(Node node){
+        root.getChildren().add(node);
+    }
+
+    public static  void removeNode(Node node){
+        root.getChildren().remove(node);
+    }
+    
+    public static void clearAnimeBoxes(){
+        if(animeLayout.getAnimeBox() != null){
+            removeNode(animeLayout.getAnimeBox());
+        }
     }
     
     public static Group setUI() {

@@ -5,7 +5,10 @@
  */
 package it.unipi.dii.animebook;
 
+import java.util.ArrayList;
+import java.util.List;
 import javafx.event.ActionEvent;
+import javafx.scene.control.CheckBox;
 
 /**
  *
@@ -21,6 +24,13 @@ public class GenreSelectionManager {
     }
     
     public static void confirmRegistration(){
+        List<String> genres = new ArrayList<>();
+        List<CheckBox> cblist = genreSelection.getCheckBoxList();
+        for(int i = 0; i < cblist.size(); i++){
+            if(cblist.get(i).isSelected()){ //????
+                genres.add(cblist.get(i).getText());
+            }
+        }
         GUIManager.openLoginManager();
     }
     

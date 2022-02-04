@@ -19,9 +19,9 @@ public class AnimeListRow {
     public AnimeListRow(String title, int score) {
         this.title = new SimpleStringProperty(title);
         this.score = new SimpleIntegerProperty(score);
-        this.remove = new Button();
+        this.remove = new Button("REMOVE");
         this.updateScore = new TextField();
-        this.update = new Button();
+        this.update = new Button("UPDATE");
     }
 
     public String getTitle(){

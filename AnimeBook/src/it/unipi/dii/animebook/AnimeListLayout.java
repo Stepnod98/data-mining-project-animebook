@@ -87,6 +87,7 @@ public class AnimeListLayout {
         TableColumn columnUpdate = new TableColumn();
         table.getColumns().addAll(columnAnime, columnScore, columnRemove, columnUpdateScore, columnUpdate);
         List<AnimeListRow> anilist = new ArrayList<>();
+        //List<AnimeListElem> l = MongoDBManager.getAnimeList();
         List<AnimeListElem> l = new ArrayList<>();
         l.add(new AnimeListElem("app1",1));
         l.add(new AnimeListElem("app2",2));
