@@ -12,8 +12,24 @@ import java.util.ArrayList;
 public class User{
 
     private String username;
+    public String email;
+    public String pwd;
+    public String firstName;
+    public String lastName;
     private ArrayList<AnimeListElem> animeList;
+    
+    public User(String username,String pwd ,String firstName, String lastName, String email){
+        this.username = username;
+        this.pwd = pwd;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
 
+    public User(String username){
+        this.username = username;
+    }
+    
     /*public User(Document doc){
         this.username = doc.getString("profile");
         if((ArrayList<Document>)doc.get("animelist") != null)

@@ -135,19 +135,88 @@ public class MongoDBManager {
     public static void connectionCloser(){
         mongoClient.close();
     }*/
+    /*
+    public static boolean checkUser(String username, String pwd){
+
+        MongoCollection<Document> collection = database.getCollection("login");
+
+        Bson projectionFields = Projections.fields(Projections.excludeId(),Projections.include("login.username","login.password"));
+        Bson filter = Filters.and(Filters.eq("login.username",username),Filters.eq("login.sha1",pwd));
+
+        List<Document> user = collection.find(filter).projection(projectionFields).into(new ArrayList<Document>());
+
+        return user.size() == 1;
+         
+    }
+    
+    public static boolean checkEmail(String email){
+
+        MongoCollection<Document> collection = database.getCollection("users");
+
+        Bson projectionFields = Projections.fields(Projections.excludeId(),Projections.include("login.email"));
+        Bson filter = Filters.eq("login.email",email);
+
+        List<Document> user = collection.find(filter).projection(projectionFields).into(new ArrayList<Document>());
+
+        return user.size() == 1;
+    }
+    
+    public static void addUser(User user){
+
+        MongoCollection<Document> collection = database.getCollection("login");
+
+        Document login = new Document("username", user.username).append("sha1", user.pwd);
+        Document name = new Document("first", user.firstName).append("last", user.lastName);
+
+        Document doc = new Document("name", name).append("email", user.email).append("login", login);
+
+        collection.insertOne(doc);
+
+    }
+    
+    */
     
     public static List getAnimeList(){
         List<AnimeListElem> mal = new ArrayList<>();
+        /*
+        MongoCollection<Document> collection = database.getCollection("profiles");
+
+        Bson projectionFields = Projections.fields(Projections.excludeId(), Projections.include("title"));
+        List<Document> animes = collection.find(Filter.eq("profile", GUIManager.getCurrentUser())).projection(projectionFields).into(new ArrayList<Document>());
+
+        List<String> animeList = new ArrayList<>();
+        for(int i = 0; i < animes.size(); i++){
+            animeList.add(new AnimeListElem((String) animes.get(i).get("animelist).get("anime"),
+                    (int) animes.get(i).get("animelist").get("score"));
+        }
+        return animeList;
+        
+        */
         return mal;
     }
     
     public static List getAnimes(){
         List<AnimeListElem> mal = new ArrayList<>();
+        /*
+        MongoCollection<Document> anime = db.getCollection("animes");
+        List<Anime> foundAnime = new ArrayList<>();
+        try (MongoCursor<Document> cursor = anime.find().iterator()) {
+            while (cursor.hasNext()) {
+                Document doc = cursor.next();
+                Anime a = new Anime(doc);
+                foundAnime.add(a);
+            }
+        } catch (Exception ex) {ex.printStackTrace();}
+        return foundAnime;
+        */
         return mal;
     }
     
     public static AnimeListElem findAnimeListElem(String t){
         AnimeListElem anime = new AnimeListElem(t, 9);
+        /*
+        
+        */
         return anime;
     }
     
@@ -157,16 +226,61 @@ public class MongoDBManager {
         /*Bson filter = regex("title", inTitle);
         try (MongoCursor<Document> cursor = anime.find(filter).iterator()) {
             Document doc = cursor.next();
-            animeList.add(new Deck(doc).getTitle());
+            animeList.add(new Anime(doc).getTitle());
         } catch (Exception ex) {ex.printStackTrace();}*/
         return animeList;
     }
     
-    public static void removeFromMal(String t){
-        
+    
+    public static void removeFromMal(String title){
+        //MongoCollection<Document> users = db.getCollection("profiles");
+        /*Document query = new Document().append("profile",  GUIManager.getCurrentUser());
+        Bson update = pull("animelist.anime", title);
+	try {
+            UpdateResult result = users.updateOne(query, update);
+        } catch (MongoException me) {
+                System.err.println("Unable to update due to an error: " + me);
+        }
+       */
     }
     
     public static void updateScore(String title, int score){
+        //MongoCollection<Document> users = db.getCollection("profiles");
+        /*User target = findUser(db, userName);
+        ArrayList<Document> updatedAnimeList = target.setAnimeScore(animeTitle, score);
+        Bson filter = eq("profile", GUIManager.getCurrentUser());
+        Bson setter = set("animelist", updatedAnimeList);
+        UpdateResult result = users.updateOne(filter, setter);
+        if (result.getModifiedCount() == 0) {
+            System.out.println("Customer update operation failed");
+            return false;
+        }
+        return true;*/
+    }
+    
+    public static void addUser(User user){
+        //MongoCollection<Document> users = db.getCollection("profiles");
+        /*
+        Document login = new Document("username", user.username).append("sha1", user.pwd);
+        Document name = new Document("first", user.firstName).append("last", user.lastName);
+
+        Document doc = new Document("name", name).append("email", user.email).append("login", login);
+
+        collection.insertOne(doc);
+        */
+    }
+    
+    public static boolean checkAnime(String inTitle){
+        //MongoCollection<Document> anime = database.getCollection("anime");
+        //Bson filter = eq("title", inTitle);
+        //List<Document> animelist = anime.find(filter).into(new ArrayList<Document>());
+        //return animelist.size() == 1;
+        //return false;
+        return true;
+    }
+    
+    public static void insertGenres(List genres){
         
     }
+    
 }

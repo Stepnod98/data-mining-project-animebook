@@ -13,6 +13,8 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -20,7 +22,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 
 /**
  *
@@ -36,10 +40,23 @@ public class AnimeLayout {
     protected Button viewRecommendedAnimes;
     private TableView table;
     private ObservableList<AnimeRow> observableList;
+    private ListView<String> browseResults;
     private VBox vbox;
+    private VBox animeBox;
     private Label result;
     protected Button back;
+    private Label log;
+    private TextField logText;
+       
     public AnimeLayout(){
+        logText = new TextField();
+        logText.setLayoutX(480);
+        logText.setLayoutY(80);
+        logText.setMinWidth(240);
+        logText.setEditable(false);
+        log = new Label("Log:");
+        log.setLayoutX(480);
+        log.setLayoutY(60);
         view = new Label("View All Animes:");
         view.setLayoutX(50);
         view.setLayoutY(40);
@@ -66,6 +83,12 @@ public class AnimeLayout {
     	viewRecommendedAnimes.setLayoutY(120);
     	viewRecommendedAnimes.setLayoutX(250);
     	viewRecommendedAnimes.setMaxWidth(300);
+        browseResults = new ListView<>();
+        browseResults.setLayoutY(105);
+        browseResults.setLayoutX(150);
+        browseResults.setMaxWidth(animeToFind.getPrefWidth());
+        browseResults.setMaxHeight(120);
+        browseResults.setVisible(false);
         table = new TableView();
         vbox = new VBox();
         back = new Button("BACK");
@@ -74,34 +97,14 @@ public class AnimeLayout {
     	back.setMaxWidth(300);
     }
     
-    public Node[] getNodes() {
-    	Node[] returnNode = { view, viewAnimes, find, animeToFind, findAnime, viewRecommended, 
-                            viewRecommendedAnimes, vbox, back};
-    	return returnNode;
-    }
-    
-    public static String getAnimeToFind(){
-        return animeToFind.getText();
-    }
-    
-    public TextField getAnimeToBrowseTf(){
-        return animeToFind;
-    }
-    
-    public Button getViewAnimes(){
-        return viewAnimes;
-    }
-    
-    public Button getFindAnime(){
-        return findAnime;
-    }
-    
-    public Button getBack(){
-        return back;
-    }
-    
-    public TableView getTable(){
-        return table;
+    public void updateBrowseResults(List<String> result){
+        browseResults.getItems().clear();
+        if(result.isEmpty()){
+            browseResults.setVisible(false);
+        }else{
+            browseResults.setVisible(true);
+            browseResults.getItems().addAll(result);
+        }
     }
     
     public void showAnimeDetails(List<String> list){
@@ -161,6 +164,49 @@ public class AnimeLayout {
         vbox.getChildren().addAll(table);
     }
     
+    public void showAnimeFindResults(String title){
+
+        animeBox = new VBox();
+
+        HBox titleBox = new HBox();
+        Label usernameLabel = new Label("Title: ");
+        usernameLabel.setStyle("-fx-font-weight: bold;");
+        Text usernameText = new Text(title);
+
+        titleBox.getChildren().addAll(usernameLabel, usernameText);
+        titleBox.setStyle("-fx-font-size: 15");
+
+        HBox scoreBox = new HBox();
+        TextField tf = new TextField();
+        tf.setPromptText("Insert Score");
+        tf.setPrefSize(120, 20);
+        scoreBox.getChildren().addAll(tf);
+        scoreBox.setAlignment(Pos.CENTER);
+        scoreBox.setPadding(new Insets(10, 0,0, 0));    
+        
+        HBox commandBox = new HBox();
+        Button action = new Button("ACTION");
+
+        action.setPrefSize(100, 20);
+
+        commandBox.getChildren().addAll(action);
+        commandBox.setAlignment(Pos.CENTER);
+        commandBox.setPadding(new Insets(30, 0,0, 0));
+        
+        animeBox.getChildren().addAll(titleBox, scoreBox, commandBox);
+
+
+        animeBox.setLayoutY(200);
+        animeBox.setLayoutX(60);
+        animeBox.setMinWidth(250);
+        animeBox.setMinHeight(100);
+        animeBox.setStyle("-fx-background-color: DARKCYAN;" +
+                " -fx-padding: 20;" +
+                " -fx-border-style: solid;" +
+                " -fx-border-color: black;");
+
+    }
+    
     
     public void showListResults(BorderPane bp, int x, int y){
         if(bp == null){
@@ -177,6 +223,59 @@ public class AnimeLayout {
     public void clearLayout(){
         vbox.getChildren().clear();
         table.getColumns().clear();
+        logText.clear();
+    }
+    
+    public void printError(String err){
+        logText.setText(err);
+        logText.setStyle("-fx-text-inner-color: red;");
+    }
+
+    public void printLog(String log){
+        logText.setText(log);
+        logText.setStyle("-fx-text-inner-color: green;");
+    }
+    
+    public Node[] getNodes() {
+    	Node[] returnNode = { view, viewAnimes, find, animeToFind, findAnime, viewRecommended, 
+                            viewRecommendedAnimes, browseResults, vbox, logText, log, back};
+    	return returnNode;
+    }
+    
+    public String getAnimeToFind(){
+        return animeToFind.getText();
+    }
+    
+    public TextField getAnimeToBrowseTf(){
+        return animeToFind;
+    }
+    
+    public Button getViewAnimes(){
+        return viewAnimes;
+    }
+    
+    public Button getFindAnime(){
+        return findAnime;
+    }
+    
+    public Button getBack(){
+        return back;
+    }
+    
+    public TableView getTable(){
+        return table;
+    }
+    
+    public ListView<String> getBrowseResults() {
+        return browseResults;
+    }
+    
+    public VBox getAnimeBox() {
+        return animeBox;
+    }
+    
+    public TextField getLogText() {
+        return logText;
     }
     
     public Node getTableNodes() {

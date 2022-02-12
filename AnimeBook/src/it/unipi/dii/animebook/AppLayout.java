@@ -27,19 +27,31 @@ public class AppLayout {
         bAnimeList = new Button("YOUR ANIME LIST");
         bAnimeList.setLayoutX(280);
         bAnimeList.setLayoutY(80);
+        bAnimeList.setMinWidth(200);
         bAnime = new Button("SEARCH ANIMES");
         bAnime.setLayoutX(280);
         bAnime.setLayoutY(130);
+        bAnime.setMinWidth(200);
         bLogout = new Button("LOGOUT");
         bLogout.setLayoutX(280);
-        bLogout.setLayoutY(180);
-        bAnimeList.setOnAction((ActionEvent ev)->{GUIManager.openAnimeList();}); 
-        bAnime.setOnAction((ActionEvent ev)->{GUIManager.openAnimeManager();});
-        bLogout.setOnAction((ActionEvent ev)->{GUIManager.openLoginManager();});           
+        bLogout.setLayoutY(180); 
+        bLogout.setMinWidth(200);
     }
     
     public Node[] getNodes() {
     	Node[] returnNode = {title, bAnimeList, bAnime, bLogout};
     	return returnNode;
+    }
+    
+    public Button getbAnime(){
+        return bAnime;
+    }
+    
+    public Button getbAnimeList(){
+        return bAnimeList;
+    }
+    
+    public Button getbLogout(){
+        return bLogout;
     }
 }

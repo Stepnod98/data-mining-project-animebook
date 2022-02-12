@@ -24,11 +24,11 @@ import javafx.scene.control.Label;
 public class GenreSelection {
     private Label selectGenres;
     // create the data to show in the CheckComboBox 
-    private String [] genres = {"Action","Adventure","Cars","Comedy","Dementia","Demons","Drama","Ecchi","Fantasy","Game",
-                                "Harem","Hentai","Historical","Horror","Josei","Kids","Magic","Martial Arts","Mecha",
-                                "Military","Music","Mystery","Parody","Police","Psychological","Romance","Samurai","School",
-                                "Sci-Fi","Seinen","Shoujo","Shoujo Ai","Shounen","Shounen Ai","Slice of Life","Space",
-                                "Sports","Super Power","Supernatural","Thriller","Vampire","Yaoi","Yuri"};
+    private String [] genres = {"Action","Adventure","Comedy","Dementia","Demons","Drama","Fantasy","Game",
+                                "Harem","Historical","Horror","Magic","Martial Arts","Mecha",
+                                "Military","Music","Mystery","Parody","Police","Psychological","Romance","School",
+                                "Sci-Fi","Seinen","Shoujo","Shounen","Slice of Life","Space",
+                                "Sports","Super Power","Supernatural","Thriller","Vampire"};
     
     //"Action","Adventure","Cars","Comedy","Dementia","Demons","Drama","Ecchi","Fantasy","Game","Harem","Hentai","Historical","Horror","Josei","Kids","Magic","Martial Arts","Mecha","Military","Music","Mystery","Parody","Police","Psychological","Romance","Samurai","School","Sci-Fi","Seinen","Shoujo","Shoujo Ai","Shounen","Shounen Ai","Slice of Life","Space","Sports","Super Power","Supernatural","Thriller","Vampire","Yaoi","Yuri"
     protected List<CheckBox> cblist = new ArrayList<>();
@@ -83,6 +83,10 @@ public class GenreSelection {
     
     public Button getBack(){
         return back;
+    }
+    
+    public List getCheckBoxList(){
+        return cblist;
     }
     
         /*final ObservableList<String> strings = FXCollections.observableArrayList();
