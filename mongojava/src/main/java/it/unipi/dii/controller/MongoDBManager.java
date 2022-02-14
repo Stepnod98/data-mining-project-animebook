@@ -44,6 +44,18 @@ public class MongoDBManager {
         return null;
     }
 
+    public static User findUserbyUserID(int uid){
+        MongoCollection<Document> users = db.getCollection("profiles");
+        Bson filter = Filters.eq("userid", uid);
+        try (MongoCursor<Document> cursor = users.find(filter).iterator()) {
+            Document doc = cursor.next();
+            return new User(doc);
+        }
+        catch(NoSuchElementException ex){return new User("Null");}
+        catch (Exception ex) {ex.printStackTrace();}
+        return null;
+    }
+
     //Method that find first 50 anime
     public static ArrayList<Anime> browseAnime(MongoDatabase db){
         MongoCollection<Document> anime = db.getCollection("animes");
@@ -142,6 +154,23 @@ public class MongoDBManager {
 
         Bson projectionFields = Projections.fields(Projections.excludeId(), Projections.include("animelist"));
         try(MongoCursor<Document> cursor = collection.find(Filters.eq("profile", GUIManager.getCurrentUser())).projection(projectionFields).iterator()){
+            Document doc = cursor.next();
+            System.out.println(doc);
+            List<Document> animelist = doc.getList("animelist", Document.class);
+            System.out.println(animelist);
+            for(int i = 0; i < animelist.size(); i++) {
+                mal.add(new AnimeListElem(animelist.get(i).getString("anime"), animelist.get(i).getInteger("score")));
+            }
+        } catch (Exception ex) {ex.printStackTrace();}
+        return mal;
+    }
+
+    public static List<AnimeListElem> getUserAnimeList(String username){
+        List<AnimeListElem> mal = new ArrayList<>();
+        MongoCollection<Document> collection = db.getCollection("profiles");
+
+        Bson projectionFields = Projections.fields(Projections.excludeId(), Projections.include("animelist"));
+        try(MongoCursor<Document> cursor = collection.find(Filters.eq("profile", username)).projection(projectionFields).iterator()){
             Document doc = cursor.next();
             System.out.println(doc);
             List<Document> animelist = doc.getList("animelist", Document.class);
@@ -296,91 +325,91 @@ public class MongoDBManager {
         List<Genre> genres = user.getGenres();
         for(Genre g: genres){
             if(g.getName().equals("Adventure")){
-                adventure = 1;
+                adventure = 10;
             }
             else if(g.getName().equals("Action")){
-                action = 1;
+                action = 10;
             }
             else if(g.getName().equals("Comedy")){
-                comedy = 1;
+                comedy = 10;
             }
             else if(g.getName().equals("Demons")){
-                demons = 1;
+                demons = 10;
             }
             else if(g.getName().equals("Drama")){
-                drama = 1;
+                drama = 10;
             }
             else if(g.getName().equals("Fantasy")){
-                fantasy = 1;
+                fantasy = 10;
             }
             else if(g.getName().equals("Game")){
-                game = 1;
+                game = 10;
             }
             else if(g.getName().equals("Historical")){
-                historical = 1;
+                historical = 10;
             }
             else if(g.getName().equals("Horror")){
-                horror = 1;
+                horror = 10;
             }
             else if(g.getName().equals("Magic")){
-                magic = 1;
+                magic = 10;
             }
             else if(g.getName().equals("Mecha")){
-                mecha = 1;
+                mecha = 10;
             }
             else if(g.getName().equals("Military")){
-                military = 1;
+                military = 10;
             }
             else if(g.getName().equals("Music")){
-                music = 1;
+                music = 10;
             }
             else if(g.getName().equals("Mystery")){
-                mystery = 1;
+                mystery = 10;
             }
             else if(g.getName().equals("Parody")){
-                parody = 1;
+                parody = 10;
             }
             else if(g.getName().equals("Police")){
-                police = 1;
+                police = 10;
             }
             else if(g.getName().equals("Psychological")){
-                psychological = 1;
+                psychological = 10;
             }
             else if(g.getName().equals("Romance")){
-                romance = 1;
+                romance = 10;
             }
             else if(g.getName().equals("School")){
-                school = 1;
+                school = 10;
             }
             else if(g.getName().equals("Sci-Fi")){
-                scifi = 1;
+                scifi = 10;
             }
             else if(g.getName().equals("Seinen")){
-                seinen = 1;
+                seinen = 10;
             }
             else if(g.getName().equals("Shoujo")){
-                shoujo = 1;
+                shoujo = 10;
             }
             else if(g.getName().equals("Shounen")){
-                shonen = 1;
+                shonen = 10;
             }
             else if(g.getName().equals("Slice of Life")){
-                sol = 1;
+                sol = 10;
             }
             else if(g.getName().equals("Space")){
-                space = 1;
+                space = 10;
             }
             else if(g.getName().equals("Sports")){
-                sports = 1;
+                sports = 10;
             }
             else if(g.getName().equals("Superpower")){
-                superpower = 1;
+                superpower = 10;
             }
             else if(g.getName().equals("Supernatural")){
-                supernatural = 1;
+                supernatural = 10;
             }
             else if(g.getName().equals("Thriller")){
-                thriller = 1;
+                thriller = 10;
             }
         }
         Document genre = new Document("Action", action).append("Adventure", adventure)
