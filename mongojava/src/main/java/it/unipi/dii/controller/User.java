@@ -56,7 +56,45 @@ public class User{
     public String getUsername(){return this.username;}
     
     public List<Genre> getGenres(){return this.genres;}
-    
+
+    public double[] getGenresFreq(){
+        double[] coords = new double[29];
+        for(int i = 0; i < genres.size(); i++){
+            switch (genres.get(i).getName()){
+                case "Action": coords[0] = genres.get(i).getCount(); break;
+                case "Adventure": coords[1] = genres.get(i).getCount(); break;
+                case "Comedy": coords[2] = genres.get(i).getCount(); break;
+                case "Demons": coords[3] = genres.get(i).getCount(); break;
+                case "Drama": coords[4] = genres.get(i).getCount(); break;
+                case "Fantasy": coords[5] = genres.get(i).getCount(); break;
+                case "Game": coords[6] = genres.get(i).getCount(); break;
+                case "Historical": coords[7] = genres.get(i).getCount(); break;
+                case "Horror": coords[8] = genres.get(i).getCount(); break;
+                case "Magic": coords[9] = genres.get(i).getCount(); break;
+                case "Mecha": coords[10] = genres.get(i).getCount(); break;
+                case "Military": coords[11] = genres.get(i).getCount(); break;
+                case "Music": coords[12] = genres.get(i).getCount(); break;
+                case "Mystery": coords[13] = genres.get(i).getCount(); break;
+                case "Parody": coords[14] = genres.get(i).getCount(); break;
+                case "Police": coords[15] = genres.get(i).getCount(); break;
+                case "Psychological" : coords[16] = genres.get(i).getCount(); break;
+                case "Romance": coords[17] = genres.get(i).getCount(); break;
+                case "School" : coords[18] = genres.get(i).getCount(); break;
+                case "Sci-Fi" : coords[19] = genres.get(i).getCount(); break;
+                case "Seinen": coords[20] = genres.get(i).getCount(); break;
+                case "Shoujo": coords[21] = genres.get(i).getCount(); break;
+                case "Shounen": coords[22] = genres.get(i).getCount(); break;
+                case "Slice of Life": coords[23] = genres.get(i).getCount(); break;
+                case "Space": coords[24] = genres.get(i).getCount(); break;
+                case "Sports": coords[25] = genres.get(i).getCount(); break;
+                case "Super Power": coords[26] = genres.get(i).getCount(); break;
+                case "Supernatural" : coords[27] = genres.get(i).getCount(); break;
+                case "Thriller": coords[28] = genres.get(i).getCount(); break;
+            }
+        }
+
+        return coords;
+    }
 
     public ArrayList<AnimeListElem> getAnimeList(){return this.animeList;}
 

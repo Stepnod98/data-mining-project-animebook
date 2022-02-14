@@ -40,9 +40,9 @@ public class AnimeManager {
     }
     
    public void findAnime(String inTitle){
-        animeLayout.clearLayout();
-        GUIManager.clearAnimeBoxes();
         if(MongoDBManager.checkAnime(inTitle)){
+            animeLayout.clearLayout();
+            GUIManager.clearAnimeBoxes();
             setAnimeBox(inTitle);
             GUIManager.addNode(animeLayout.getAnimeBox());
         }
@@ -51,15 +51,29 @@ public class AnimeManager {
         }
     }
     
-    public static void viewRecommendedAnimes(){
+    public void viewRecommendedAnimes(){
         animeLayout.clearLayout();
         GUIManager.clearAnimeBoxes();
+        double[] elementCoords = GUIManager.getCurrent().getGenresFreq();
+        try {
+            int[] clusterElements = Clustering.kmeansAssignment(elementCoords);
+            List<String> foundList = Recommender.getMostPopularAnime(clusterElements);
+            animeLayout.showAnimeResults(foundList);
+            setTableEvents();
+            animeLayout.printLog("Recommended animes shown correctly!");
+        }
+        catch(Exception ex){ex.printStackTrace();}
     }
     
     public static void addAnime(String title, int score){
         System.out.println("Aggiungo " + title + " con score: " + score);
+        if(MongoDBManager.checkAnimeinList(title)){
+            animeLayout.printError("Anime " + title + " not inserted, may already be present in your list!");
+            return;
+        }
         if(!MongoDBManager.storeAnimeListElement(GUIManager.getCurrentUser(), title, score)){
             animeLayout.printError("Anime " + title + " not inserted, may already be present in your list!");
+            return;
         }
         List<Genre> genres = MongoDBManager.getGenres(title);
         if(score >= 6){
@@ -78,7 +92,7 @@ public class AnimeManager {
             findAnime(animeLayout.getAnimeToFind());
         });
         animeLayout.getViewAnimes().setOnAction((ActionEvent ev)->{viewAnimes();}); 
-        animeLayout.viewRecommendedAnimes.setOnAction((ActionEvent ev)->{viewRecommendedAnimes();}); 
+        animeLayout.viewRecommendedAnimes.setOnAction((ActionEvent ev)->{viewRecommendedAnimes();});
         animeLayout.getBack().setOnAction((ActionEvent ev)->{GUIManager.openAppManager();});
         animeLayout.getAnimeToBrowseTf().focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
