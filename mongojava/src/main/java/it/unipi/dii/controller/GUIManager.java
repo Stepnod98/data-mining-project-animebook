@@ -175,7 +175,6 @@ public class GUIManager extends Application {
         return current_user.getUsername();
     }
 
-
     public static User getCurrent(){
         return current_user;
     }
