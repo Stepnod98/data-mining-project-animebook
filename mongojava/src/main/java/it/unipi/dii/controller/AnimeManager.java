@@ -41,7 +41,7 @@ public class AnimeManager {
     
    public void findAnime(String inTitle){
         if(MongoDBManager.checkAnime(inTitle)){
-            animeLayout.clearLayout();
+            //animeLayout.clearLayout();
             GUIManager.clearAnimeBoxes();
             setAnimeBox(inTitle);
             GUIManager.addNode(animeLayout.getAnimeBox());
@@ -183,8 +183,9 @@ public class AnimeManager {
         int score = MongoDBManager.getAnimeUserScore(title);
         animeLayout.showAnimeFindResults(title, episodes, members, score);
         animeLayout.printLog("Anime found!");
-        HBox hBox = (HBox) animeLayout.getAnimeBox().getChildren().get(animeLayout.getAnimeBox().getChildren().size()-1);
-        HBox hBox2 = (HBox) animeLayout.getAnimeBox().getChildren().get(animeLayout.getAnimeBox().getChildren().size()-2);
+        HBox hBox = (HBox) animeLayout.getAnimeBox().getChildren().get(animeLayout.getAnimeBox().getChildren().size()-2);
+        HBox hBox2 = (HBox) animeLayout.getAnimeBox().getChildren().get(animeLayout.getAnimeBox().getChildren().size()-3);
+        HBox hBox3 = (HBox) animeLayout.getAnimeBox().getChildren().get(animeLayout.getAnimeBox().getChildren().size()-1);
         ((Button) hBox.getChildren().get(0)).setText("ADD");
         if(MongoDBManager.checkAnimeinList(title)){
             hBox.getChildren().get(0).setDisable(true);
@@ -199,6 +200,10 @@ public class AnimeManager {
             else{
                 animeLayout.printError("Insert a score between 1 and 10!");
             }
+        });
+        ((Button) hBox3.getChildren().get(0)).setText("CLOSE");
+        ((Button) hBox3.getChildren().get(0)).setOnAction((ActionEvent ev) -> {
+            GUIManager.clearAnimeBoxes();
         });
     }
     

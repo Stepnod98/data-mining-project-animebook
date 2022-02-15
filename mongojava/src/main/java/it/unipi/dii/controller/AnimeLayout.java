@@ -161,7 +161,13 @@ public class AnimeLayout {
         HBox epsBox = new HBox();
         Label epsLabel = new Label("Episodes: ");
         epsLabel.setStyle("-fx-font-weight: bold;");
-        Text epsText = new Text(""+episodes);
+        Text epsText = new Text("");
+        if(episodes == 0){
+            epsText.setText("N.A.");
+        }
+        else{
+            epsText.setText(""+episodes);
+        }
 
         epsBox.getChildren().addAll(epsLabel, epsText);
         epsBox.setStyle("-fx-font-size: 15");
@@ -179,7 +185,13 @@ public class AnimeLayout {
         HBox userScoreBox = new HBox();
         Label userScoreLabel = new Label("User's Score: ");
         userScoreLabel.setStyle("-fx-font-weight: bold;");
-        Text userScoreText = new Text(""+score);
+        Text userScoreText = new Text("");
+        if(score == 0){
+            userScoreText.setText("N.A.");
+        }
+        else{
+            userScoreText.setText(""+score);
+        }
 
         userScoreBox.getChildren().addAll(userScoreLabel, userScoreText);
         userScoreBox.setStyle("-fx-font-size: 15");
@@ -201,8 +213,17 @@ public class AnimeLayout {
         commandBox.getChildren().addAll(action);
         commandBox.setAlignment(Pos.CENTER);
         commandBox.setPadding(new Insets(30, 0,0, 0));
+
+        HBox closeBox = new HBox();
+        Button close = new Button("ACTION");
+
+        close.setPrefSize(100, 20);
+
+        closeBox.getChildren().addAll(close);
+        closeBox.setAlignment(Pos.CENTER);
+        closeBox.setPadding(new Insets(10, 0,0, 0));
         
-        animeBox.getChildren().addAll(titleBox, epsBox, membersBox, userScoreBox, scoreBox, commandBox);
+        animeBox.getChildren().addAll(titleBox, epsBox, membersBox, userScoreBox, scoreBox, commandBox, closeBox);
 
 
         animeBox.setLayoutY(200);
