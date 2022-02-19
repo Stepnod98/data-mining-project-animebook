@@ -72,7 +72,7 @@ public class AnimeManager {
     }
     
     public static void addAnime(String title, int score){
-        System.out.println("Aggiungo " + title + " con score: " + score);
+        System.out.println("Adding " + title + " with score: " + score);
         if(MongoDBManager.checkAnimeinList(title)){
             animeLayout.printError("Anime " + title + " not inserted, may already be present in your list!");
             return;

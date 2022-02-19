@@ -1,7 +1,4 @@
-package it.unipi.dii.datamining;/*import Entities.Anime;
-import Entities.AnimeListElem;
-import Entities.Genre;
-import Entities.User;*/
+package it.unipi.dii.datamining;
 
 import it.unipi.dii.entities.AnimeListElem;
 import it.unipi.dii.dbmanager.MongoDBManager;
@@ -9,8 +6,6 @@ import it.unipi.dii.entities.User;
 
 import java.util.*;
 import java.util.stream.Collectors;
-
-import static com.mongodb.client.model.Filters.eq;
 
 public class Recommender {
 
@@ -40,65 +35,8 @@ public class Recommender {
         freq.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                 .forEachOrdered(x -> reverseSortedMap.put(x.getKey(), x.getValue()));
 
-        List<String> mostPopularAnime = reverseSortedMap.keySet().stream().limit(30).collect(Collectors.toList()); //take first ten elements
+        List<String> mostPopularAnime = reverseSortedMap.keySet().stream().limit(15).collect(Collectors.toList()); //take first ten elements
 
         return mostPopularAnime;
     }
-
-
-    /*public static void main(String[] args) throws Exception {
-        //---Connect to the MongoDB---
-        ConnectionString uri = new ConnectionString("mongodb://localhost:27017");
-        MongoClient mongoClient = MongoClients.create(uri); //no arguments means = localhost:27017
-        MongoDatabase db = mongoClient.getDatabase("animebook");
-
-        //double[] elementCoords = {10,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}; //piacciono action adventure
-
-        ArrayList<String> genreList = new ArrayList<>();
-*/
-        /*genreList.add("Action");
-        genreList.add("Adventure");*/
-        //genreList.add("Comedy");
-        //genreList.add("Demons");
-        //genreList.add("Drama");
-        /*genreList.add("Fantasy");
-        genreList.add("Game");
-        genreList.add("Historical");
-        genreList.add("Horror");
-        genreList.add("Magic");
-        genreList.add("Mecha");
-        genreList.add("Military");
-        genreList.add("Music");
-        genreList.add("Mystery");
-        genreList.add("Parody");
-        genreList.add("Police");
-        genreList.add("Psychological");
-        genreList.add("Romance");
-        genreList.add("School");
-        genreList.add("Sci-Fi");
-        genreList.add("Seinen");
-        genreList.add("Shoujo");
-        genreList.add("Shounen");
-        genreList.add("Slice of Life");
-        genreList.add("Space");
-        genreList.add("Sports");
-        genreList.add("Super Power");
-        genreList.add("Supernatural");
-        genreList.add("Thriller");*/
-/*
-        double[] elementCoords = AccuracyModule.setElementCoords(genreList); //create dummy user genrelist
-
-        System.out.println(Arrays.toString(elementCoords));
-
-        int[] clusterElements = Clustering.kmeansAssignment(elementCoords); //returns all elements of the cluster in which the user has been assigned
-
-
-        List<String> test= getMostPopularAnime(db, clusterElements); //get most popular anime of the cluster
-
-        double accuracy = AccuracyModule.measureAccuracy(db, test, genreList); //measure the number of correct predicted elements by the clustering
-
-        System.out.println("Accuracy = " +accuracy);
-
-        mongoClient.close();
-    }*/
 }
