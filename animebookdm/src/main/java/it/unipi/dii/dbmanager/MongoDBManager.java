@@ -107,7 +107,7 @@ public class MongoDBManager {
     
     public static boolean checkEmail(String email){
 
-        MongoCollection<Document> collection = db.getCollection("users");
+        MongoCollection<Document> collection = db.getCollection("login");
 
         Bson projectionFields = Projections.fields(Projections.excludeId(),Projections.include("login.email"));
         Bson filter = Filters.eq("login.email",email);
@@ -148,7 +148,7 @@ public class MongoDBManager {
     }
     
     public static List getAnimes(){
-        MongoCollection<Document> anime = db.getCollection("anime");
+        MongoCollection<Document> anime = db.getCollection("animes");
         List<String> foundAnime = new ArrayList<>();
         try (MongoCursor<Document> cursor = anime.find().iterator()) {
             while (cursor.hasNext()) {
@@ -193,7 +193,7 @@ public class MongoDBManager {
     }
     
     public static List findAnimeList(String inTitle){
-        MongoCollection<Document> anime = db.getCollection("anime");
+        MongoCollection<Document> anime = db.getCollection("animes");
         List<String> animeList = new ArrayList<>();
         if(inTitle.length() < 4){
             return animeList;
@@ -209,7 +209,7 @@ public class MongoDBManager {
     }
 
     public static int getAnimeEps(String inTitle){
-        MongoCollection<Document> anime = db.getCollection("anime");
+        MongoCollection<Document> anime = db.getCollection("animes");
         int eps;
         Bson filter = Filters.eq("title", inTitle);
         try (MongoCursor<Document> cursor = anime.find(filter).iterator()) {
@@ -221,7 +221,7 @@ public class MongoDBManager {
     }
 
     public static int getAnimeUserScore(String inTitle){
-        MongoCollection<Document> anime = db.getCollection("anime");
+        MongoCollection<Document> anime = db.getCollection("animes");
         int score;
         Bson filter = Filters.eq("title", inTitle);
         try (MongoCursor<Document> cursor = anime.find(filter).iterator()) {
@@ -233,7 +233,7 @@ public class MongoDBManager {
     }
 
     public static int getAnimeMembers(String inTitle){
-        MongoCollection<Document> anime = db.getCollection("anime");
+        MongoCollection<Document> anime = db.getCollection("animes");
         int members;
         Bson filter = Filters.eq("title", inTitle);
         try (MongoCursor<Document> cursor = anime.find(filter).iterator()) {
@@ -510,7 +510,7 @@ public class MongoDBManager {
     }
     
     public static boolean checkAnime(String inTitle){
-        MongoCollection<Document> anime = db.getCollection("anime");
+        MongoCollection<Document> anime = db.getCollection("animes");
         Bson filter = Filters.eq("title", inTitle);
         List<Document> animelist = anime.find(filter).into(new ArrayList<Document>());
         return animelist.size() >= 1;
@@ -533,7 +533,7 @@ public class MongoDBManager {
     }
 
     public static List<Genre> getGenres(String title){
-        MongoCollection<Document> animes = db.getCollection("anime");
+        MongoCollection<Document> animes = db.getCollection("animes");
         List<Genre> genres = new ArrayList<>();
         Bson projectionFields = Projections.fields(Projections.excludeId(), Projections.include("genres"));
         Bson filter = Filters.eq("title", title);
