@@ -102,9 +102,9 @@ public class MongoDBManager {
         List<Document> user = collection.find(filter).projection(projectionFields).into(new ArrayList<Document>());
 
         return user.size() == 1;
-         
+
     }
-    
+
     public static boolean checkEmail(String email){
 
         MongoCollection<Document> collection = db.getCollection("login");
@@ -146,7 +146,7 @@ public class MongoDBManager {
         } catch (Exception ex) {ex.printStackTrace();}
         return mal;
     }
-    
+
     public static List getAnimes(){
         MongoCollection<Document> anime = db.getCollection("animes");
         List<String> foundAnime = new ArrayList<>();
@@ -159,8 +159,8 @@ public class MongoDBManager {
         return foundAnime;
     }
 
-    
-     //Method that stores a new animelist element to the corresponding user
+
+    //Method that stores a new animelist element to the corresponding user
     public static boolean storeAnimeListElement(String userName, String animeTitle, int score) {
         MongoCollection<Document> users = db.getCollection("profiles");
         User target = findUser(userName);
@@ -179,7 +179,7 @@ public class MongoDBManager {
         }
         return true;
     }
-    
+
     //Method that checks if an anime is aldready present inside a user animelist
     public static boolean duplicatesChecker(User target, String animeTitle){
         if(target.getAnimeList() == null){
@@ -191,7 +191,7 @@ public class MongoDBManager {
         }
         return false;
     }
-    
+
     public static List findAnimeList(String inTitle){
         MongoCollection<Document> anime = db.getCollection("animes");
         List<String> animeList = new ArrayList<>();
@@ -213,9 +213,9 @@ public class MongoDBManager {
         int eps;
         Bson filter = Filters.eq("title", inTitle);
         try (MongoCursor<Document> cursor = anime.find(filter).iterator()) {
-                Document doc = cursor.next();
-                eps = doc.getInteger("episodes");
-                return eps;
+            Document doc = cursor.next();
+            eps = doc.getInteger("episodes");
+            return eps;
         } catch (Exception ex) {ex.printStackTrace();}
         return 0;
     }
@@ -243,19 +243,19 @@ public class MongoDBManager {
         } catch (Exception ex) {ex.printStackTrace();}
         return 0;
     }
-    
-    
+
+
     public static void removeFromMal(String title){
         MongoCollection<Document> users = db.getCollection("profiles");
         Document query = new Document().append("profile",  GUIManager.getCurrentUser());
         Bson update = Updates.pull("animelist", new Document("anime", title));
-	try {
+        try {
             UpdateResult result = users.updateOne(query, update);
         } catch (MongoException me) {
-                System.err.println("Unable to update due to an error: " + me);
+            System.err.println("Unable to update due to an error: " + me);
         }
     }
-    
+
     public static void updateScore(String animeTitle, int score){
         MongoCollection<Document> users = db.getCollection("profiles");
         User target = findUser(GUIManager.getCurrentUser());
@@ -269,7 +269,7 @@ public class MongoDBManager {
         }
         //return true;
     }
-    
+
     public static void addUser(User user){
         MongoCollection<Document> users = db.getCollection("login");
         Document login = new Document("username", user.getUsername()).append("sha1", user.pwd);
@@ -279,7 +279,7 @@ public class MongoDBManager {
 
         users.insertOne(doc);
     }
-    
+
     public static void insertProfile(User user){
         MongoCollection<Document> users = db.getCollection("profiles");
         int action = 0, adventure = 0, comedy = 0, demons = 0, drama = 0, fantasy = 0, game = 0,
@@ -378,22 +378,22 @@ public class MongoDBManager {
             }
         }
         Document genre = new Document("Action", action).append("Adventure", adventure)
-                        .append("Comedy", comedy).append("Demons", demons).append("Drama", drama)
-                        .append("Fantasy", fantasy).append("Game", game).append("Historical", historical)
-                        .append("Horror", horror).append("Magic", magic).append("Mecha", mecha)
-                        .append("Military", military).append("Music", music).append("Mystery", mystery)
-                        .append("Parody", parody).append("Police", police).append("Psychological", psychological)
-                        .append("Romance", romance).append("School", school).append("Sci-Fi", scifi)
-                        .append("Seinen", seinen).append("Shoujo", shoujo).append("Shounen", shonen)
-                        .append("Slice of Life", sol).append("Space", space).append("Sports", sports)
-                        .append("Super Power", superpower).append("Supernatural", supernatural).append("Thriller", thriller);
-        
+                .append("Comedy", comedy).append("Demons", demons).append("Drama", drama)
+                .append("Fantasy", fantasy).append("Game", game).append("Historical", historical)
+                .append("Horror", horror).append("Magic", magic).append("Mecha", mecha)
+                .append("Military", military).append("Music", music).append("Mystery", mystery)
+                .append("Parody", parody).append("Police", police).append("Psychological", psychological)
+                .append("Romance", romance).append("School", school).append("Sci-Fi", scifi)
+                .append("Seinen", seinen).append("Shoujo", shoujo).append("Shounen", shonen)
+                .append("Slice of Life", sol).append("Space", space).append("Sports", sports)
+                .append("Super Power", superpower).append("Supernatural", supernatural).append("Thriller", thriller);
+
         Document doc = new Document("profile", user.getUsername())//.append("animelist", new Arraylist<AnimeListElem>())
-                        .append("genres", genre);
+                .append("genres", genre);
 
         users.insertOne(doc);
     }
-    
+
     public static void updateGenres(List<Genre> genres){
         MongoCollection<Document> users = db.getCollection("profiles");
         int action = 0, adventure = 0, comedy = 0, demons = 0, drama = 0, fantasy = 0, game = 0,
@@ -491,24 +491,24 @@ public class MongoDBManager {
             }
         }
         Document genre = new Document("Action", action).append("Adventure", adventure)
-                        .append("Comedy", comedy).append("Demons", demons).append("Drama", drama)
-                        .append("Fantasy", fantasy).append("Game", game).append("Historical", historical)
-                        .append("Horror", horror).append("Magic", magic).append("Mecha", mecha)
-                        .append("Military", military).append("Music", music).append("Mystery", mystery)
-                        .append("Parody", parody).append("Police", police).append("Psychological", psychological)
-                        .append("Romance", romance).append("School", school).append("Sci-Fi", scifi)
-                        .append("Seinen", seinen).append("Shoujo", shoujo).append("Shounen", shonen)
-                        .append("Slice of Life", sol).append("Space", space).append("Sports", sports)
-                        .append("Super Power", superpower).append("Supernatural", supernatural).append("Thriller", thriller);
+                .append("Comedy", comedy).append("Demons", demons).append("Drama", drama)
+                .append("Fantasy", fantasy).append("Game", game).append("Historical", historical)
+                .append("Horror", horror).append("Magic", magic).append("Mecha", mecha)
+                .append("Military", military).append("Music", music).append("Mystery", mystery)
+                .append("Parody", parody).append("Police", police).append("Psychological", psychological)
+                .append("Romance", romance).append("School", school).append("Sci-Fi", scifi)
+                .append("Seinen", seinen).append("Shoujo", shoujo).append("Shounen", shonen)
+                .append("Slice of Life", sol).append("Space", space).append("Sports", sports)
+                .append("Super Power", superpower).append("Supernatural", supernatural).append("Thriller", thriller);
         Document query = new Document().append("profile",  GUIManager.getCurrentUser());
         Bson update = Updates.combine(Updates.set("genres", genre));
         try {
-        UpdateResult result = users.updateOne(query, update);
+            UpdateResult result = users.updateOne(query, update);
         } catch (MongoException me) {
-                System.err.println("Unable to update due to an error: " + me);
+            System.err.println("Unable to update due to an error: " + me);
         }
     }
-    
+
     public static boolean checkAnime(String inTitle){
         MongoCollection<Document> anime = db.getCollection("animes");
         Bson filter = Filters.eq("title", inTitle);
@@ -678,5 +678,5 @@ public class MongoDBManager {
     public static void connectionCloser(){
         mongoClient.close();
     }
-    
+
 }

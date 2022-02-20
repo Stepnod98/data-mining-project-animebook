@@ -31,7 +31,7 @@ public class Clustering {
         CSVLoader loader = new CSVLoader();
         loader.setSource(new File(Utility.csvDatasetPath));
         Instances dataset = loader.getDataSet();
-        System.out.println("TEST: "+dataset.numAttributes());
+        //System.out.println("TEST: "+dataset.numAttributes());
 
         //Remove unnecessary attributes
         Remove removeFilter = new Remove();
@@ -56,18 +56,12 @@ public class Clustering {
         int[] assignments = clusterer.getAssignments();//get the array of cluster assignments
         double[] clusterDistribution = clusterer.getClusterSizes(); //get cluster distribution
 
-        System.out.println("Info: "+Arrays.toString(assignments));
-        System.out.println("Info: "+Arrays.toString(clusterDistribution));
 
         int cluster = Utility.assignCluster(elementCoords,centroids);//elementCoords double array
-
-        System.out.println("TEST assignment "+cluster);
 
         //retrieve cluster elements
         int[] test = Utility.findClusterUsers(assignments, clusterDistribution[cluster], cluster);
 
-        System.out.println("Ho preso la roba giusta? "+Arrays.toString(test));
         return test;
     }
-
 }

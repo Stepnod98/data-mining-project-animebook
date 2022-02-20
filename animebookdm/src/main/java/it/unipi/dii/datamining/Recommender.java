@@ -7,8 +7,6 @@ import it.unipi.dii.entities.User;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.mongodb.client.model.Filters.eq;
-
 public class Recommender {
 
     public static List<String> getMostPopularAnime(int userlist[]){ //counts most popular anime belonging to a cluster and returns them
@@ -37,7 +35,7 @@ public class Recommender {
         freq.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                 .forEachOrdered(x -> reverseSortedMap.put(x.getKey(), x.getValue()));
 
-        List<String> mostPopularAnime = reverseSortedMap.keySet().stream().limit(30).collect(Collectors.toList()); //take first ten elements
+        List<String> mostPopularAnime = reverseSortedMap.keySet().stream().limit(15).collect(Collectors.toList()); //take first ten elements
 
         return mostPopularAnime;
     }

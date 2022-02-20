@@ -2,8 +2,8 @@ package it.unipi.dii.utils;
 import java.util.*;
 
 public class Utility {
-    //public static String csvDatasetPath = "/Users/andredim/IdeaProjects/Clustering AnimeBook/Dataset/usertest.csv";
-    public static String csvDatasetPath = "/Users/Stefano/IdeaProjects/animebookdm/db/UserDBWekaReady.csv";
+    public static String csvDatasetPath = "C:/Users/Andrea/IdeaProjects/data-mining-project-animebook/animebookdm/db/UserDBWekaReady.csv";
+    //public static String csvDatasetPath = "/Users/Stefano/IdeaProjects/animebookdm/db/UserDBWekaReady.csv";
     public static int[] indexes = {0,1};
     public static int k = 21; // k means value
 
@@ -21,11 +21,11 @@ public class Utility {
 
     public static int assignCluster(double[] coordinates, HashMap<Integer, double[]> centroids){
         double maxSimilarity = cosineSimilarity(coordinates, centroids.get(0));
-        System.out.println("distance cluster 0: "+maxSimilarity);
+        //System.out.println("distance cluster 0: "+maxSimilarity);
         int cluster = 0;
         for (int key = 1; key< centroids.size(); key++) {
             Double distanceCosine = cosineSimilarity(coordinates, centroids.get(key));
-            System.out.println("distance cluster"+key+" : "+distanceCosine);
+            //System.out.println("distance cluster"+key+" : "+distanceCosine);
             if(maxSimilarity < distanceCosine){
                 cluster = key;
                 maxSimilarity = distanceCosine;
