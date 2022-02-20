@@ -47,7 +47,6 @@ public class AnimeManager {
     
    public void findAnime(String inTitle){
         if(MongoDBManager.checkAnime(inTitle)){
-            //animeLayout.clearLayout();
             GUIManager.clearAnimeBoxes();
             setAnimeBox(inTitle);
             GUIManager.addNode(animeLayout.getAnimeBox());
@@ -83,11 +82,8 @@ public class AnimeManager {
         }
         List<Genre> genres = MongoDBManager.getGenres(title);
         if(score >= 6){
-            System.out.println(GUIManager.getCurrent().getGenres());
             GUIManager.getCurrent().addAnimeGenres(genres);
-            //GUIManager.setCurrentUser(new User(GUIManager.getCurrentUser(), GUIManager.getCurrent().getGenres()));
             List<Genre> newGenres = GUIManager.getCurrent().getGenres();
-            System.out.println(GUIManager.getCurrent().getGenres());
             MongoDBManager.updateGenres(newGenres);
         }
         animeLayout.printLog("Anime " + title + " added!");
