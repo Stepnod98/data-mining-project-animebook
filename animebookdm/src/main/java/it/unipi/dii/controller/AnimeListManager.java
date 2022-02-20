@@ -36,7 +36,6 @@ public class AnimeListManager {
             List<Genre> genres = MongoDBManager.getGenres(title);
             GUIManager.getCurrent().removeAnimeGenres(genres);
             List<Genre> newGenres = GUIManager.getCurrent().getGenres();
-            System.out.println(GUIManager.getCurrent().getGenres());
             MongoDBManager.updateGenres(newGenres);
         }
         MongoDBManager.removeFromMal(title);

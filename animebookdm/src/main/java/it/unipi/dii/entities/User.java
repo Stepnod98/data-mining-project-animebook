@@ -107,15 +107,6 @@ public class User{
         return animelist;
     }
 
-    /*public ArrayList<AnimeListElem> getGenresfromDoc(ArrayList<Document> genreDoc){
-        ArrayList<AnimeListElem> genrelist = new ArrayList<>();
-        for(Document d : genreDoc) {
-            Genre elem = new Genre(d);
-            genrelist.add(elem);
-        }
-        return genrelist;
-    }*/
-
     public void printAnimeList(){
         for(AnimeListElem a : this.animeList)
             System.out.println("Anime: "+a.getTitle()+" Score: "+a.getScore());

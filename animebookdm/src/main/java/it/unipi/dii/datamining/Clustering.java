@@ -56,12 +56,8 @@ public class Clustering {
         int[] assignments = clusterer.getAssignments();//get the array of cluster assignments
         double[] clusterDistribution = clusterer.getClusterSizes(); //get cluster distribution
 
-        //System.out.println("Info: "+Arrays.toString(assignments));
-        //System.out.println("Info: "+Arrays.toString(clusterDistribution));
 
         int cluster = Utility.assignCluster(elementCoords,centroids);//elementCoords double array
-
-        //System.out.println("TEST assignment "+cluster);
 
         //retrieve cluster elements
         int[] test = Utility.findClusterUsers(assignments, clusterDistribution[cluster], cluster);

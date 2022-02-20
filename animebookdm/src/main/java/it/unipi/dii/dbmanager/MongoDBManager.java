@@ -60,42 +60,7 @@ public class MongoDBManager {
         return null;
     }
 
-    //Method that find first 50 anime
-    public static ArrayList<Anime> browseAnime(MongoDatabase db){
-        MongoCollection<Document> anime = db.getCollection("animes");
-        ArrayList<Anime> foundAnime = new ArrayList<>();
-        try (MongoCursor<Document> cursor = anime.find().limit(50).iterator()) {
-            while (cursor.hasNext()) {//iterates between all reviews (A)
-                Document doc = cursor.next();
-                Anime a = new Anime(doc);
-                foundAnime.add(a);
-                String username = doc.getString("profile");
-            }
-        } catch (Exception ex) {ex.printStackTrace();}
-        return foundAnime;
-    }
 
-    //Method that finds an anime, given it's title
-    public static Anime findAnime(MongoDatabase db, String title){
-        MongoCollection<Document> anime = db.getCollection("animes");
-        Bson filter = Filters.eq("title", title);
-        try (MongoCursor<Document> cursor = anime.find(filter).iterator()) {
-            Document doc = cursor.next();
-            return new Anime(doc);
-        } catch (Exception ex) {ex.printStackTrace();}
-        return null;
-    }
-
-    //Method that finds an anime, given it's uid
-    public static Anime findAnime(MongoDatabase db, int uid){
-        MongoCollection<Document> anime = db.getCollection("animes");
-        Bson filter = Filters.eq("uid", uid);
-        try (MongoCursor<Document> cursor = anime.find(filter).iterator()) {
-            Document doc = cursor.next();
-            return new Anime(doc);
-        } catch (Exception ex) {ex.printStackTrace();}
-        return null;
-    }
 
     //Method that deletes an animelist element from the corresponding user
     public static boolean removeAnimeListElement(String userName, String animeTitle) {
@@ -142,7 +107,7 @@ public class MongoDBManager {
 
     public static boolean checkEmail(String email){
 
-        MongoCollection<Document> collection = db.getCollection("profiles");
+        MongoCollection<Document> collection = db.getCollection("login");
 
         Bson projectionFields = Projections.fields(Projections.excludeId(),Projections.include("login.email"));
         Bson filter = Filters.eq("login.email",email);
@@ -159,9 +124,7 @@ public class MongoDBManager {
         Bson projectionFields = Projections.fields(Projections.excludeId(), Projections.include("animelist"));
         try(MongoCursor<Document> cursor = collection.find(Filters.eq("profile", GUIManager.getCurrentUser())).projection(projectionFields).iterator()){
             Document doc = cursor.next();
-            System.out.println(doc);
             List<Document> animelist = doc.getList("animelist", Document.class);
-            System.out.println(animelist);
             for(int i = 0; i < animelist.size(); i++) {
                 mal.add(new AnimeListElem(animelist.get(i).getString("anime"), animelist.get(i).getInteger("score")));
             }
@@ -176,9 +139,7 @@ public class MongoDBManager {
         Bson projectionFields = Projections.fields(Projections.excludeId(), Projections.include("animelist"));
         try(MongoCursor<Document> cursor = collection.find(Filters.eq("profile", username)).projection(projectionFields).iterator()){
             Document doc = cursor.next();
-            System.out.println(doc);
             List<Document> animelist = doc.getList("animelist", Document.class);
-            System.out.println(animelist);
             for(int i = 0; i < animelist.size(); i++) {
                 mal.add(new AnimeListElem(animelist.get(i).getString("anime"), animelist.get(i).getInteger("score")));
             }
@@ -552,7 +513,7 @@ public class MongoDBManager {
         MongoCollection<Document> anime = db.getCollection("animes");
         Bson filter = Filters.eq("title", inTitle);
         List<Document> animelist = anime.find(filter).into(new ArrayList<Document>());
-        return animelist.size() == 1;
+        return animelist.size() >= 1;
     }
 
     public static boolean checkAnimeinList(String inTitle){

@@ -47,7 +47,6 @@ public class AnimeManager {
     
    public void findAnime(String inTitle){
         if(MongoDBManager.checkAnime(inTitle)){
-            //animeLayout.clearLayout();
             GUIManager.clearAnimeBoxes();
             setAnimeBox(inTitle);
             GUIManager.addNode(animeLayout.getAnimeBox());
@@ -83,11 +82,8 @@ public class AnimeManager {
         }
         List<Genre> genres = MongoDBManager.getGenres(title);
         if(score >= 6){
-            System.out.println(GUIManager.getCurrent().getGenres());
             GUIManager.getCurrent().addAnimeGenres(genres);
-            //GUIManager.setCurrentUser(new User(GUIManager.getCurrentUser(), GUIManager.getCurrent().getGenres()));
             List<Genre> newGenres = GUIManager.getCurrent().getGenres();
-            System.out.println(GUIManager.getCurrent().getGenres());
             MongoDBManager.updateGenres(newGenres);
         }
         animeLayout.printLog("Anime " + title + " added!");
@@ -187,7 +183,14 @@ public class AnimeManager {
         int episodes = MongoDBManager.getAnimeEps(title);
         int members = MongoDBManager.getAnimeMembers(title);
         int score = MongoDBManager.getAnimeUserScore(title);
-        animeLayout.showAnimeFindResults(title, episodes, members, score);
+        String genre = "";
+        List<Genre> genres = MongoDBManager.getGenres(title);
+        for(int i = 0; i < genres.size() - 1 && i < 6; i++){
+            genre = genre.concat(genres.get(i).getName());
+            genre= genre.concat(", ");
+        }
+        genre = genre.concat(genres.get(genres.size() - 1).getName());
+        animeLayout.showAnimeFindResults(title, episodes, genre, members, score);
         animeLayout.printLog("Anime found!");
         HBox hBox = (HBox) animeLayout.getAnimeBox().getChildren().get(animeLayout.getAnimeBox().getChildren().size()-2);
         HBox hBox2 = (HBox) animeLayout.getAnimeBox().getChildren().get(animeLayout.getAnimeBox().getChildren().size()-3);
