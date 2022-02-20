@@ -143,7 +143,7 @@ public class AnimeLayout {
         vbox.getChildren().addAll(table);
     }
     
-    public void showAnimeFindResults(String title, int episodes, int members, int score){
+    public void showAnimeFindResults(String title, int episodes, String genres, int members, int score){
 
         animeBox = new VBox();
 
@@ -169,6 +169,15 @@ public class AnimeLayout {
         epsBox.getChildren().addAll(epsLabel, epsText);
         epsBox.setStyle("-fx-font-size: 15");
         epsBox.setPadding(new Insets(10, 0,0, 0));
+
+        HBox genresBox = new HBox();
+        Label genresLabel = new Label("Genres: ");
+        genresLabel.setStyle("-fx-font-weight: bold;");
+        Text genresText = new Text(""+genres);
+
+        genresBox.getChildren().addAll(genresLabel, genresText);
+        genresBox.setStyle("-fx-font-size: 15");
+        genresBox.setPadding(new Insets(10, 0,0, 0));
 
         HBox membersBox = new HBox();
         Label membersLabel = new Label("Members: ");
@@ -220,7 +229,7 @@ public class AnimeLayout {
         closeBox.setAlignment(Pos.CENTER);
         closeBox.setPadding(new Insets(10, 0,0, 0));
         
-        animeBox.getChildren().addAll(titleBox, epsBox, membersBox, userScoreBox, scoreBox, commandBox, closeBox);
+        animeBox.getChildren().addAll(titleBox, epsBox, genresBox, membersBox, userScoreBox, scoreBox, commandBox, closeBox);
 
 
         animeBox.setLayoutY(200);

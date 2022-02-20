@@ -183,7 +183,14 @@ public class AnimeManager {
         int episodes = MongoDBManager.getAnimeEps(title);
         int members = MongoDBManager.getAnimeMembers(title);
         int score = MongoDBManager.getAnimeUserScore(title);
-        animeLayout.showAnimeFindResults(title, episodes, members, score);
+        String genre = "";
+        List<Genre> genres = MongoDBManager.getGenres(title);
+        for(int i = 0; i < genres.size() - 1 && i < 6; i++){
+            genre = genre.concat(genres.get(i).getName());
+            genre= genre.concat(", ");
+        }
+        genre = genre.concat(genres.get(genres.size() - 1).getName());
+        animeLayout.showAnimeFindResults(title, episodes, genre, members, score);
         animeLayout.printLog("Anime found!");
         HBox hBox = (HBox) animeLayout.getAnimeBox().getChildren().get(animeLayout.getAnimeBox().getChildren().size()-2);
         HBox hBox2 = (HBox) animeLayout.getAnimeBox().getChildren().get(animeLayout.getAnimeBox().getChildren().size()-3);
